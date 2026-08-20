@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import { Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,6 +33,7 @@ const flags: Flag[] = [
 
 export default function IndexPage() {
   const [isDark, setIsDark] = useState<boolean>(false);
+  const [country, setCountry] = useState<string>("");
 
   return (
     <div
@@ -56,22 +58,37 @@ export default function IndexPage() {
         </div>
       </nav>
       <main>
+        <div className="container mx-auto gap-5 px-4 py-2 flex items-center">
+          <input
+            className={`outline w-full rounded-md px-4 py-2 ${isDark ? "outline-slate-900 bg-slate-800" : "bg-white"}`}
+            type="text"
+            placeholder="Enter a country name..."
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+        </div>
         <div className="container grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4 py-2 mx-auto">
-          {flags.map((flag, index) => (
-            <div
-              className={`p-5 rounded-md shadow outline ${isDark ? "outline-slate-900 bg-slate-800 border-slate-900" : "bg-white"}`}
-              key={index}
-            >
-              <Image
-                src={`/${flag.imageName}.png`}
-                alt={`A flag of ${flag.countryName}`}
-                width={200}
-                height={100}
-                className="w-full rounded-md"
-              />
-              <h3 className="font-bold mt-5">{flag.countryName}</h3>
-            </div>
-          ))}
+          {flags
+            .filter((flag) =>
+              flag.countryName
+                .toLocaleLowerCase()
+                .includes(country.toLowerCase()),
+            )
+            .map((flag, index) => (
+              <div
+                className={`p-5 rounded-md shadow outline ${isDark ? "outline-slate-900 bg-slate-800 border-slate-900" : "bg-white"}`}
+                key={index}
+              >
+                <Image
+                  src={`/${flag.imageName}.png`}
+                  alt={`A flag of ${flag.countryName}`}
+                  width={200}
+                  height={100}
+                  className="w-full rounded-md"
+                />
+                <h3 className="font-bold mt-5">{flag.countryName}</h3>
+              </div>
+            ))}
         </div>
       </main>
     </div>

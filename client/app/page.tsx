@@ -1,6 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,6 +33,7 @@ const flags: Flag[] = [
 export default function IndexPage() {
   const [isDark, setIsDark] = useState<boolean>(false);
   const [country, setCountry] = useState<string>("");
+  const [region, setRegion] = useState<Region | string>(Region.Europe);
 
   return (
     <div
@@ -66,6 +66,15 @@ export default function IndexPage() {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
+          <select
+            className={`border w-fit px-4 py-2 rounded-md ${isDark ? "border-slate-900 bg-slate-800" : "bg-white"}`}
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+          >
+            {Object.values(Region).map((region, index) => (
+              <option key={index}>{region}</option>
+            ))}
+          </select>
         </div>
         <div className="container grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4 py-2 mx-auto">
           {flags
@@ -74,6 +83,7 @@ export default function IndexPage() {
                 .toLocaleLowerCase()
                 .includes(country.toLowerCase()),
             )
+            .filter((flag) => flag.region === region)
             .map((flag, index) => (
               <div
                 className={`p-5 rounded-md shadow outline ${isDark ? "outline-slate-900 bg-slate-800 border-slate-900" : "bg-white"}`}

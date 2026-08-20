@@ -59,7 +59,7 @@ export default function IndexPage() {
         <div className="container grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4 py-2 mx-auto">
           {flags.map((flag, index) => (
             <div
-              className={`p-5 ${isDark ? "bg-slate-800 border-slate-900" : "bg-white"}`}
+              className={`p-5 rounded-md shadow outline ${isDark ? "outline-slate-900 bg-slate-800 border-slate-900" : "bg-white"}`}
               key={index}
             >
               <Image
@@ -67,7 +67,9 @@ export default function IndexPage() {
                 alt={`A flag of ${flag.countryName}`}
                 width={200}
                 height={100}
+                className="w-full rounded-md"
               />
+              <h3 className="font-bold mt-5">{flag.countryName}</h3>
             </div>
           ))}
         </div>
